@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from matplotlib.ticker import LinearLocator
 from scipy.signal import savgol_filter
-
+import plotly.graph_objects as go
 #Enter data processing parameters:
 savgolWindow = 11
 savgolPoly = 3
@@ -85,18 +85,33 @@ def main():
 			i = df[Vcolumn]
 			dvdi=np.array(v.diff()/i.diff())
 			didv = np.array(i.diff()/v.diff())
-			plt.close()
-			plt.plot(i,dvdi,label='dV/dI')
+			# plt.close()
+			# plt.plot(i,dvdi,label='dV/dI')
 			#plt.plot(i,get_sma(dvdi),'r')
 			sg = savgol_filter(dvdi,savgolWindow,savgolPoly)   # Savgol filter of 0th order derivative
 			sg2 = 10*abs(savgol_filter(sg,savgolWindow,savgolPoly,deriv=1))  # Savgol filter of 1st order derivative
-			plt.plot(i,sg,color='yellow', linestyle='dashed', marker='.',label='Savgol filter of dV/dI (=SG)')
-			plt.plot(i,sg2,color='green', linestyle='dashed', marker='.',label='Savgol filter of dSG/dI')
-			plt.xlabel('I (mA)')
-			plt.ylabel('dV/dI (mΩ)')
-			plt.legend(loc="upper left")
-			plt.show()
-			st.pyplot()
+			# plt.plot(i,sg,color='yellow', linestyle='dashed', marker='.',label='Savgol filter of dV/dI (=SG)')
+			# plt.plot(i,sg2,color='green', linestyle='dashed', marker='.',label='Savgol filter of dSG/dI')
+			# plt.xlabel('I (mA)')
+			# plt.ylabel('dV/dI (mΩ)')
+			# plt.legend(loc="upper left")
+			# plt.show()
+			# Create traces
+			fig = go.Figure()
+			fig.add_trace(go.Scatter(x=i, y=dvdi,
+								mode='lines+markers',
+								name='dV/dI'))
+			fig.add_trace(go.Scatter(x=i, y=sg,
+								mode='lines+markers',
+								name='0th order Savgol filter'))
+			fig.add_trace(go.Scatter(x=i, y=sg2,
+								mode='lines+markers', name='1st order Savgol filter'))
+
+			
+			fig.update_layout(title='Data for dV/dI and d^2V/dI^2', autosize=True,
+			width=1024, height=800)
+			st.plotly_chart(fig)
+			fig.show()
 			I=i
 
 			sg2L = np.array(sg2[cutoff:int(0.5*(len(sg2)-1))])   # split sg2 into two groups left (neg) and right (pos)
