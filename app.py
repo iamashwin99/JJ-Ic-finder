@@ -84,6 +84,13 @@ def main():
 			c1 = st.checkbox("Show dV/dI",value=True)
 			c2 = st.checkbox("Show Savgol filter of 0th order",value=True)
 			c3 = st.checkbox("Show Savgol filter of 1st order",value=True)
+			#Enter data processing parameters:
+			savgolWindow = st.slider("The length of the filter window",min_value=1,max_value=25,step=1,value=11)
+			savgolPoly = st.slider("The order of the polynomial used to fit the samples. polyorder must be less than window_length.",min_value=1,max_value=savgolWindow,step=1,value=3)
+			sigNoiseThresh = st.slider("sigNoiseThresh",min_value=1,max_value=25,step=1,value=3)
+			cutoff = st.slider("cut off end data points of dVdI which result in spurious maxima",min_value=1,max_value=25,step=1,value=15) #15 # cut off ends of dVdI which result in spurious maxima
+
+
 			
 
 			v = df[Icolumn]
