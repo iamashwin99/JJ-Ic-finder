@@ -80,6 +80,11 @@ def main():
 		elif choice == "Find-Ic":
 			Icolumn = st.selectbox("Select Columns that contains I data",all_columns_names)
 			Vcolumn = st.selectbox("Select Columns that contains V data",all_columns_names)
+			st.write("Plot list")
+			c1 = st.checkbox("Show dV/dI")
+			c2 = st.checkbox("Show Savgol filter of 0th order")
+			c3 = st.checkbox("Show Savgol filter of 1st order")
+			
 
 			v = df[Icolumn]
 			i = df[Vcolumn]
@@ -98,13 +103,16 @@ def main():
 			# plt.show()
 			# Create traces
 			fig = go.Figure()
-			fig.add_trace(go.Scatter(x=i, y=dvdi,
+			if c1:
+				fig.add_trace(go.Scatter(x=i, y=dvdi,
 								mode='lines+markers',
 								name='dV/dI'))
-			fig.add_trace(go.Scatter(x=i, y=sg,
+			if c2: 
+				fig.add_trace(go.Scatter(x=i, y=sg,
 								mode='lines+markers',
 								name='0th order Savgol filter'))
-			fig.add_trace(go.Scatter(x=i, y=sg2,
+			if c3:
+				fig.add_trace(go.Scatter(x=i, y=sg2,
 								mode='lines+markers', name='1st order Savgol filter'))
 
 			

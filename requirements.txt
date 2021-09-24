@@ -17,3 +17,5 @@ seaborn == 0.11.2
 
 # JJ-Ic-finder/app.py: 1
 streamlit == 0.88.0
+
+plotly==5.3.0
