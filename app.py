@@ -81,9 +81,9 @@ def main():
 			Icolumn = st.selectbox("Select Columns that contains I data",all_columns_names)
 			Vcolumn = st.selectbox("Select Columns that contains V data",all_columns_names)
 			st.write("Plot list")
-			c1 = st.checkbox("Show dV/dI")
-			c2 = st.checkbox("Show Savgol filter of 0th order")
-			c3 = st.checkbox("Show Savgol filter of 1st order")
+			c1 = st.checkbox("Show dV/dI",value=True)
+			c2 = st.checkbox("Show Savgol filter of 0th order",value=True)
+			c3 = st.checkbox("Show Savgol filter of 1st order",value=True)
 			
 
 			v = df[Icolumn]
