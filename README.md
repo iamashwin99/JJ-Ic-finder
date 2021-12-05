@@ -8,7 +8,7 @@ We first find dV/dI from the given rows of V and I, we then find the Savgol filt
 
 Corresponding to the negative and positive Ic, the 2nd order derivative will show spikes (as in fig), The I for which this peaks out is taken for both negative and positive current and then averaged out.
 
-![samplePlot](/home/ashwin/Data/Sandbox/Ash_docs/NISER/Thesis/Data/JJ-Ic-finder/README.assets/samplePlot.png)
+![samplePlot](https://github.com/iamashwin99/JJ-Ic-finder/blob/main/README.assets/samplePlot.png?raw=true)
 
 
 
