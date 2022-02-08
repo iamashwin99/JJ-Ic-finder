@@ -17,6 +17,7 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator
 from scipy.signal import savgol_filter
 import plotly.graph_objects as go
+import plotly.express as px
 #Enter data processing parameters:
 savgolWindow = 11
 savgolPoly = 3
@@ -50,12 +51,21 @@ def main():
 		if choice == "Visualise-Data":
 
 			
-			type_of_plot = st.radio("Select Type of Plot",["area","bar","line","hist","box","kde"])
-			selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names)
+			type_of_plot = st.radio("Select Type of Plot",["area","bar","line","hist","box","kde","scatter"])
+			if type_of_plot not in ["scatter"]:
+				selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names)
+			else:
+				Xcolumn = st.selectbox("Select Columns that contains X data",all_columns_names)
+				Ycolumn = st.selectbox("Select Columns that contains Y data",all_columns_names)
+			
+
 
 
 			if st.button("Generate Plot"):
-				st.success("Generating Customizable Plot of {} for {}".format(type_of_plot,selected_columns_names))
+				if type_of_plot not in ["scatter"]:
+					st.success("Generating Customizable Plot of {} for {}".format(type_of_plot,selected_columns_names))
+				else:
+					st.success("Generating Scatter Plot of {} and {}".format(Xcolumn,Ycolumn))
 
 				# Plot By Streamlit
 				if type_of_plot == 'area':
@@ -70,8 +80,12 @@ def main():
 					cust_data = df[selected_columns_names]
 					st.line_chart(cust_data)
 
+				elif type_of_plot == 'scatter':
+					fig = px.scatter(df, x=Xcolumn, y=Ycolumn, labels={'x': Xcolumn, 'y': Ycolumn})
+					st.plotly_chart(fig)
+
 				# Custom Plot 
-				elif type_of_plot:
+				elif type_of_plot == 'kde':
 					cust_plot= df[selected_columns_names].plot(kind=type_of_plot)
 					st.write(cust_plot)
 					st.pyplot()
@@ -126,7 +140,7 @@ def main():
 			fig.update_layout(title='Data for dV/dI and d^2V/dI^2', autosize=True,
 			width=1024, height=800)
 			st.plotly_chart(fig)
-			fig.show()
+			#fig.show()
 			I=i
 
 			sg2L = np.array(sg2[cutoff:int(0.5*(len(sg2)-1))])   # split sg2 into two groups left (neg) and right (pos)
