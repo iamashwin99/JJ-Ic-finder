@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt 
 import matplotlib
 matplotlib.use("Agg")
-import seaborn as sns 
+#import seaborn as sns 
 
 from scipy import interpolate
 
@@ -93,8 +93,8 @@ def main():
 
 			
 
-			v = df[Icolumn]
-			i = df[Vcolumn]
+			i = df[Icolumn]
+			v = df[Vcolumn]
 			dvdi=np.array(v.diff()/i.diff())
 			didv = np.array(i.diff()/v.diff())
 			# plt.close()
